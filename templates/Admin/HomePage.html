@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<a href="{% url 'App_Login:admin_profile' %}"><h2>Profile</h2></a>
+<a href="{% url 'App_Login:employee' %}"><h2>Employee</h2></a>
+<a href="{% url 'App_Login:manager' %}"><h2>Manager</h2></a>
+<a href="{% url 'medicine:add_company' %}">Add Company</a>
+<a href="{% url 'medicine:company_view' %}">Company View</a>
+<a href="{% url 'medicine:company' %}"><h2>Company</h2></a>
+<a href="{% url 'App_Login:logout' %}"><h2>Logout</h2></a>
+</body>
+</html>

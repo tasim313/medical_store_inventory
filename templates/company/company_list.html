@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<center><h1>Company Details</h1></center>
+<table border="3">
+    <tr>
+        <th>Company Name</th>
+        <th>License Number</th>
+        <th>Company Headquarter Address</th>
+        <th>Company Contact Information</th>
+        <th>Company Email Address</th>
+        <th>Company Description</th>
+    </tr>
+    {% for company in company_list %}
+        <tr>
+            <td>
+                {{ company.name }}
+            </td>
+            <td>{{ company.lic_no }}</td>
+            <td>{{ company.address }}</td>
+            <td>{{ company.cont_num }}</td>
+            <td>{{ company.email }}</td>
+            <td>{{ company.description }}</td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

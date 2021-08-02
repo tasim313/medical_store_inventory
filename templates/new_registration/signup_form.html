@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+{% load crispy_forms_tags %}
+
+{% block css_block %}
+    <style>
+    .sign_up{
+        width: 500px;
+        border: 1px solid #ccc;
+        padding: 50px;
+    }
+    .log_in{
+        width: 400px;
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+    </style>
+{% endblock %}
+</head>
+<body>
+{% block content %}
+  <div class="row">
+    <div class="col-md-8 col-sm-10 col-12">
+      <h2>Sign up as a {{ user_type }}</h2>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Sign up</button>
+      </form>
+    </div>
+  </div>
+  <br>
+  <div class="log_in">
+        <p>Already have an account? <a href="{% url 'App_Login:login' %}" class="btn btn-success btn-sm">Login</a></p>
+    </div>
+     <br>
+  </div>
+{% endblock %}
+</body>
+</html>
+
+

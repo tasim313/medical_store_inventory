@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form class="form-inline" method="GET">
+            <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search">
+            <button class="btn btn-success" type="submit">Search</button>
+          </form>
+{% if search %}
+    <h4> Customer Details</h4>
+    <table border="3">
+            <tr>
+                <th>Customer Name</th>
+                <th>Customer Address</th>
+                <th>Customer Phone Number</th>
+            </tr>
+            {% for customer in result %}
+                <tr>
+                    <td>{{ customer.name }}</td>
+                    <td>{{ customer.address }}</td>
+                    <td>{{ customer.contact }}</td>
+                </tr>
+            {% endfor %}
+    </table>
+{% else %}
+{% endif %}
+</body>
+</html>

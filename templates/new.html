@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- Popper JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <title>{% block title_block %}Medical Store Inventory System{% endblock %}</title>
+
+        {% block css_block %}
+
+        {% endblock %}
+
+</head>
+<body>
+<div class="container" style="padding-top: 20px">
+    {% block body_block %}
+        {% if user.is_authenticated %}
+                    {% if user.is_admin %}
+                      <a href="{% url 'App_Login:index' %}"><h2>Home Page</h2></a>
+                    {% elif user.is_manager %}
+                         <a href="{% url 'App_Login:manager_profile' %}"><h2>Profile</h2></a>
+                    {% elif user.is_employee %}
+                        <a href="{% url 'App_Login:employee_profile' %}"><h2>Profile</h2></a>
+                    {% else %}
+                      <h2>Nothing</h2>
+                    {% endif %}
+                  {% endif %}
+    {% endblock %}
+</div>
+</body>
+</html>

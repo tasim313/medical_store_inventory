@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form class="form-inline" method="GET">
+            <input class="form-control mr-sm-2" type="text" name="search" placeholder="Search">
+            <button class="btn btn-success" type="submit">Search</button>
+          </form>
+<center>
+{% if search %}
+        <h4> Company Details</h4>
+        <table border="3">
+            <tr>
+                <th>Company Name</th>
+                <th>Company Headquarter Address</th>
+                <th>Company Contact Information</th>
+            </tr>
+            {% for company in result %}
+                    <tr>
+                        <td>{{ company.name }}</td>
+                        <td>{{ company.address }}</td>
+                        <td>{{ company.cont_num }}</td>
+                    </tr>
+         {% endfor %}
+        </table>
+{% else %}
+
+{% endif %}
+</center>
+</body>
+</html>

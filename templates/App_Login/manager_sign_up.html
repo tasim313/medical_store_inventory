@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title_block %} Sign Up {% endblock %}
+{% block css_block %}
+    <style>
+    .sign_up{
+        width: 500px;
+        border: 1px solid #ccc;
+        padding: 50px;
+    }
+    .log_in{
+        width: 400px;
+        border: 1px solid #ccc;
+        padding: 5px;
+    }
+    </style>
+{% endblock %}
+{% block body_block %}
+    <center>
+    <br>
+    <div class="sign_up">
+        <h3>Register Here.</h3><br><br>
+       <form action="{% url 'App_Login:manager_sign_up' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+            <div class="input-group mb-3">
+                      <input type="email" class="form-control" placeholder="Email" name="email">
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <span class="fas fa-envelope"></span>
+                        </div>
+                      </div>
+                    </div>
+                   <div class="input-group mb-3">
+                      <input type="text" class="form-control" placeholder="Username" name="username">
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <span class="fas fa-envelope"></span>
+                        </div>
+                      </div>
+                   </div>
+                   <div class="input-group mb-3">
+                      <input type="password" class="form-control" placeholder="Password" name="password">
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <span class="fas fa-lock"></span>
+                        </div>
+                      </div>
+                   </div>
+                   <div class="input-group mb-3">
+                      <input type="text" class="form-control" placeholder="Full Name" name="name">
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <span class="fas fa-envelope"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" placeholder="Phone Number" name="contact">
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <span class="fas fa-envelope"></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="input-group mb-3">
+                      <input type="text" class="form-control" placeholder="Address" name="address">
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <span class="fas fa-envelope"></span>
+                        </div>
+                      </div>
+                    </div>
+            <div class="input-group mb-3">
+                              <select class="form-control" name="pharmacy_id ">
+                                    {% for manager in managers %}
+                                       <option value="{{ manager.id }}">{{ manager.s_name }} - &nbsp;{{ manager.lic_no }}</option>
+                                    {% endfor %}
+                              </select>
+                      <div class="input-group-append">
+                        <div class="input-group-text">
+                          <span class="fas fa-lock"></span>
+                        </div>
+                      </div>
+                    </div>
+        <div class="row">
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-block" >Sign Up Manager</button>
+          </div>
+        </div>
+       </form>
+    </div>
+     <br>
+    <div class="log_in">
+        <p>Already have an account? <a href="{% url 'App_Login:login_view' %}" class="btn btn-success btn-sm">Login</a></p>
+    </div>
+     <br>
+    </center>
+{% endblock %}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <div class="container my-5">
+        <div class="my-5">
+            <h2>Your Cart</h2>
+        </div>
+    <table class="table table-hover">
+      <thead>
+         <tr>
+             <th scope="col" width="15%">#</th>
+             <th scope="col">Medicine Name</th>
+             <th scope="col">Quantity</th>
+             <th scope="col" align="right">Price</th>
+             <th scope="col">Remove</th>
+         </tr>
+      </thead>
+        <tbody>
+        {% for bill in bills %}
+            <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ bill.item.name }}</td>
+            <td>
+                <a class="mr-2" href="{% url 'App_bill:decrease_bill' pk=bill.item.pk %}"><span class="badge badge-light"><i class="fas fa-minus"></i></span></a>
+                {{ bill.quantity }}
+                <a class="mr-2" href="{% url 'App_bill:increase_bill' pk=bill.item.pk %}"><span class="badge badge-light"><i class="fas fa-plus"></i></span></a>
+            </td>
+             <td align="right">&#2547; {{ bill.get_total }}</td>
+             <td><a href="{% url 'App_bill:remove' pk=bill.item.pk %}" class="btn btn-danger btn-sm">Remove From Bill</a></td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <th scope="row"></th>
+            <td colspan="2">Total</td>
+            <td align="right">&#2547; {{ order.get_totals | floatformat:2 }}</td>
+            <td></td>
+        </tr>
+         <tr>
+        <th scope="row"></th>
+        <td colspan="4" class="text-right">
+          <a href="{% url 'App_bill:sell_medicine' %}" class="btn btn-warning mr-4">Add New Medicine</a>
+
+        </td>
+      </tr>
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>
