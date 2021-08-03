@@ -18,15 +18,9 @@ from App_medicine.models import Company
 class AddCompany(forms.ModelForm):
     class Meta:
         model = Company
-        fields = ('name', 'lic_no', 'address', 'cont_num', 'email', 'description',)
+        fields = ('pharmacy_id', 'ph_manager_id', 'ph_employee_id', 'name', 'lic_no', 'address', 'cont_num', 'email', 'description',)
 
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        user.is_admin = True
-        user.save()
-        if commit:
-            user.save()
-        return user
+
 
 
 

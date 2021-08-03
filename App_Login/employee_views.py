@@ -24,4 +24,4 @@ class EmployeeProfile(CreateView):
 
 
 def index(request):
-    return HttpResponse("Employee Home Page")
+    return render(request, 'Employee/employee_home_page.html')

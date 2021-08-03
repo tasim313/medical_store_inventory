@@ -24,6 +24,6 @@ class Profile(CreateView):
 
 
 def index(request):
-    return HttpResponse("Manager Home Page")
+    return render(request, 'manager/manager_home_page.html')
 
 

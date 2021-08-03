@@ -7,9 +7,9 @@
 </head>
 <body>
 <h1>Add Company</h1><br><br>
-      <form method="POST" enctype="multipart/form-data">
+      <form method="POST" action="{% url 'medicine:add_company' %}" enctype="multipart/form-data">
+          {% csrf_token %}
       {{ form|crispy }}
-      {% csrf_token %}
       <button type="submit" class="btn btn-success btn-sm">Save</button>
   </form>
 </body>

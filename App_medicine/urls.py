@@ -23,12 +23,15 @@ urlpatterns = [
 '''
 
 from django.urls import path
-from . import admin_views
+from . import admin_views, manager_views, employee_views
 
 app_name = 'medicine'
 
 urlpatterns = [
-    path('admin/add_company/', admin_views.add_company, name='add_company'),
+    path('admin/add_company/', admin_views.AddCompany.as_view(), name='add_company'),
     path('admin/view_company', admin_views.company_view, name='company_view'),
-    path('admin/company/', admin_views.AddCompany.as_view(), name='company'),
+    path('manger/add_company/', manager_views.AddCompany.as_view(), name='manager_add_company'),
+    path('manager/view_company/', manager_views.company_view, name='manager_company_view'),
+    path('employee/add_company/', employee_views.AddCompany.as_view(), name='employee_add_company'),
+    path('employee/view_company/', employee_views.company_view, name='employee_company_view'),
 ]
