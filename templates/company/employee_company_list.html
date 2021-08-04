@@ -27,8 +27,8 @@
             <td>{{ company.email }}</td>
             <td>{{ company.description }}</td>
             <td>
-                <a href="{% url 'medicine:admin_update_company' pk=company.pk %}">Update</a>
-                /<a href="{% url 'medicine:admin_delete_company' pk=company.pk %}">Delete</a>
+                <a href="{% url 'medicine:employee_update_company' pk=company.pk %}">Update</a>
+                /<a href="{% url 'medicine:employee_delete_company' pk=company.pk %}">Delete</a>
             </td>
         </tr>
     {% endfor %}

@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect, HttpResponse
 from App_Login.models import Admin
-from django.urls import reverse
-from django.views.generic import CreateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from App_Login.decorators import admin_required
 from django.utils.decorators import method_decorator
@@ -46,3 +46,31 @@ class AddCompany(CreateView):
         company_obj.save()
         messages.success(self.request, 'The information was created with success! ')
         return redirect('App_Login:index')
+
+
+@method_decorator([login_required, admin_required], name='dispatch')
+class UpdateCompany(UpdateView):
+    model = Company
+    fields = ('pharmacy_id', 'name', 'lic_no', 'address', 'cont_num', 'email', 'description')
+    template_name = 'company/update_company.html'
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('medicine:company_view', kwargs={})
+
+
+@method_decorator([login_required, admin_required], name='dispatch')
+class CompanyDelete(DeleteView):
+    context_object_name = 'company'
+    model = Company
+    success_url = reverse_lazy('medicine:company_view')
+    template_name = 'company/Delete_company.html'
+
+
+@login_required
+@admin_required
+def search_company(request):
+    admin_obj = Admin.objects.get(user=request.user.id)
+    if request.method == 'GET':
+        search = request.GET.get('search', '')
+        result = Company.objects.filter(name__icontains=search, pharmacy_id=admin_obj)
+    return render(request, 'company/search_company.html', context={'search': search, 'result': result})

@@ -1,7 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect, HttpResponse
 from App_Login.models import Employee
-from django.urls import reverse
-from django.views.generic import CreateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from App_Login.decorators import employee_required
 from django.utils.decorators import method_decorator
@@ -32,7 +32,7 @@ def company_view(request):
     employee_obj = Employee.objects.get(user=request.user.id)
     company_list = Company.objects.filter(ph_employee_id=employee_obj)
     diction = {'company_list': company_list}
-    return render(request, "company/company_list.html", context=diction)
+    return render(request, "company/employee_company_list.html", context=diction)
 
 
 @method_decorator([login_required, employee_required], name='dispatch')
@@ -46,3 +46,31 @@ class AddCompany(CreateView):
         company_obj.save()
         messages.success(self.request, 'The information was created with success! ')
         return redirect('App_Login:employee_index')
+
+
+@method_decorator([login_required, employee_required], name='dispatch')
+class UpdateCompany(UpdateView):
+    model = Company
+    fields = ('ph_employee_id', 'name', 'lic_no', 'address', 'cont_num', 'email', 'description')
+    template_name = 'company/employee_update_company.html'
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('medicine:employee_company_view', kwargs={})
+
+
+@method_decorator([login_required, employee_required], name='dispatch')
+class CompanyDelete(DeleteView):
+    context_object_name = 'company'
+    model = Company
+    success_url = reverse_lazy('medicine:employee_company_view')
+    template_name = 'company/employee_Delete_company.html'
+
+
+@login_required
+@employee_required
+def search_company(request):
+    employ_obj = Employee.objects.get(user=request.user.id)
+    if request.method == 'GET':
+        search = request.GET.get('search', '')
+        result = Company.objects.filter(name__icontains=search, ph_employee_id=employ_obj)
+    return render(request, 'company/search_company.html', context={'search': search, 'result': result})

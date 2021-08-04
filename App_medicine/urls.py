@@ -34,4 +34,13 @@ urlpatterns = [
     path('manager/view_company/', manager_views.company_view, name='manager_company_view'),
     path('employee/add_company/', employee_views.AddCompany.as_view(), name='employee_add_company'),
     path('employee/view_company/', employee_views.company_view, name='employee_company_view'),
+    path('update_company/<pk>/', admin_views.UpdateCompany.as_view(), name='admin_update_company'),
+    path('delete_company/<pk>/', admin_views.CompanyDelete.as_view(), name='admin_delete_company'),
+    path('search_company/', admin_views.search_company, name='admin_search_company'),
+    path('manager/update_company/<pk>/', manager_views.UpdateCompany.as_view(), name='manager_update_company'),
+    path('manager/delete_company/<pk>/', manager_views.CompanyDelete.as_view(), name='manager_delete_company'),
+    path('manager/search_company/', manager_views.search_company, name='manager_search_company'),
+    path('employee/update_company/<pk>/', employee_views.UpdateCompany.as_view(), name='employee_update_company'),
+    path('employee/delete_company/<pk>/', employee_views.CompanyDelete.as_view(), name='employee_delete_company'),
+    path('employee/search_company/', employee_views.search_company, name='employee_search_company'),
 ]
