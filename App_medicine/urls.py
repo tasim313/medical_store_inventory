@@ -49,4 +49,10 @@ urlpatterns = [
     path('admin/delete_medicine/<pk>/', admin_views.MedicineDelete.as_view(), name='admin_delete_medicine'),
     path('admin/search/', admin_views.search_medicine, name='admin_search_medicine'),
     path('admin/expire_date/', admin_views.search_medicine_expire_date, name='admin_view_expire_date'),
+    path('manager/medicine_view', manager_views.medicine_view, name='manager_medicine_view'),
+    path('manager/add_medicine/', manager_views.CreateMedicine.as_view(), name='manager_add_medicine'),
+    path('manager/update/<pk>/', manager_views.UpdateMedicine.as_view(), name='manager_update_medicine'),
+    path('manager/delete_medicine/<pk>/', manager_views.MedicineDelete.as_view(), name='manager_delete_medicine'),
+    path('manager/search/', manager_views.search_medicine, name='manager_search_medicine'),
+    path('manager/expire_date/', manager_views.search_medicine_expire_date, name='manager_view_expire_date'),
 ]
