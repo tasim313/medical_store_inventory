@@ -43,4 +43,10 @@ urlpatterns = [
     path('employee/update_company/<pk>/', employee_views.UpdateCompany.as_view(), name='employee_update_company'),
     path('employee/delete_company/<pk>/', employee_views.CompanyDelete.as_view(), name='employee_delete_company'),
     path('employee/search_company/', employee_views.search_company, name='employee_search_company'),
+    path('admin/add_medicine/', admin_views.CreateMedicine.as_view(), name='admin_add_medicine'),
+    path('admin/medicine_view', admin_views.medicine_view, name='admin_medicine_view'),
+    path('admin/update/<pk>/', admin_views.UpdateMedicine.as_view(), name='admin_update_medicine'),
+    path('admin/delete_medicine/<pk>/', admin_views.MedicineDelete.as_view(), name='admin_delete_medicine'),
+    path('admin/search/', admin_views.search_medicine, name='admin_search_medicine'),
+    path('admin/expire_date/', admin_views.search_medicine_expire_date, name='admin_view_expire_date'),
 ]

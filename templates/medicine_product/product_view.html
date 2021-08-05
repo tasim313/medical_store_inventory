@@ -21,6 +21,7 @@
         <th>Combination of Drag Administration Number</th>
         <th>Manufacturing Licence Number</th>
         <th>How many pieces of medicine are in stock</th>
+        <th>Update or Delete Information</th>
     </tr>
     {% for medicine in medicine_list %}
         <tr>
@@ -30,15 +31,19 @@
             <td>{{ medicine.name }}</td>
             <td>{{ medicine.m_type }}</td>
             <td>{{ medicine.des }}</td>
-            <td>{{ medicine.b_price }}</td>
-            <td>{{ medicine.s_price }}</td>
+            <td>{{ medicine.buy_price }}</td>
+            <td>{{ medicine.unit_price }}</td>
             <td>{{ medicine.b_no }}</td>
             <td>{{ medicine.s_no }}</td>
             <td>{{ medicine.mfg_date }}</td>
             <td>{{ medicine.expire_date }}</td>
             <td>{{ medicine.dar_no }}</td>
             <td>{{ medicine.mfg_Lic }}</td>
-            <td>{{ medicine.total_medicine_in_stock }}</td>
+            <td>{{ medicine.total_quantity }}</td>
+         <td>
+                <a href="{% url 'medicine:admin_update_medicine' pk=medicine.pk %}">Update</a>
+                /<a href="{% url 'medicine:admin_delete_medicine' pk=medicine.pk %}">Delete</a>
+            </td>
         </tr>
     {% endfor %}
 </table>

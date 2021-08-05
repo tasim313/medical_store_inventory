@@ -1,3 +1,4 @@
+'''''
 from django.shortcuts import render, get_object_or_404, redirect
 
 import App_Customer.models
@@ -114,3 +115,4 @@ def decrease_bill(request, pk):
     else:
         messages.info(request, "You don't have an active order")
         return redirect('App_bill:sell_medicine')
+'''''

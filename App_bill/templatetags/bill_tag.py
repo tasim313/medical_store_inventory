@@ -1,3 +1,4 @@
+'''''
 from django import template
 from App_bill.models import Order
 
@@ -11,3 +12,4 @@ def bill_total(user):
         return order[0].orderitems.count()
     else:
         return 0
+'''

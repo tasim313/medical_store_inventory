@@ -1,3 +1,4 @@
+'''''
 from django.urls import path
 from . import views
 app_name = 'App_bill'
@@ -10,3 +11,4 @@ urlpatterns = [
     path('increase_bill/<pk>/', views.increase_bill, name='increase_bill'),
     path('decrease_bill/<pk>/', views.decrease_bill, name='decrease_bill'),
 ]
+'''

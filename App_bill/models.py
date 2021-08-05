@@ -1,3 +1,4 @@
+'''''
 from django.db import models
 from App_Customer.models import Customer
 from App_medicine.models import MedicineProduct
@@ -35,3 +36,5 @@ class Order(models.Model):
         for order_item in self.orderitems.all():
             total += float(order_item.get_total())
         return total
+
+'''
