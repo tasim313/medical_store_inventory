@@ -55,4 +55,10 @@ urlpatterns = [
     path('manager/delete_medicine/<pk>/', manager_views.MedicineDelete.as_view(), name='manager_delete_medicine'),
     path('manager/search/', manager_views.search_medicine, name='manager_search_medicine'),
     path('manager/expire_date/', manager_views.search_medicine_expire_date, name='manager_view_expire_date'),
+    path('employee/medicine_view', employee_views.medicine_view, name='employee_medicine_view'),
+    path('employee/add_medicine/', employee_views.CreateMedicine.as_view(), name='employee_add_medicine'),
+    path('employee/update/<pk>/', employee_views.UpdateMedicine.as_view(), name='employee_update_medicine'),
+    path('employee/delete_medicine/<pk>/', employee_views.MedicineDelete.as_view(), name='employee_delete_medicine'),
+    path('employee/search/', employee_views.search_medicine, name='employee_search_medicine'),
+    path('employee/expire_date/', employee_views.search_medicine_expire_date, name='employee_view_expire_date'),
 ]
