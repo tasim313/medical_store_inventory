@@ -33,3 +33,7 @@ class ManagerSaleForm(forms.ModelForm):
         fields = ('ph_manager_id', 'quantity', 'amount_received', 'issued_to',)
 
 
+class EmployeeSaleForm(forms.ModelForm):
+    class Meta:
+        model = Sale
+        fields = ('ph_employee_id', 'quantity', 'amount_received', 'issued_to',)

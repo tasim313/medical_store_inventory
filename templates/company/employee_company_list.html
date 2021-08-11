@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<center><h1>Company Details</h1></center>
-<table border="3">
+{% extends 'new.html' %}
+{% block main_content %}
+<center><p>Company Details</p></center>
+<div class = "container">
+ <table class="table">
+ <thead class="thead-dark">
     <tr>
         <th>Company Name</th>
         <th>License Number</th>
@@ -16,6 +13,8 @@
         <th>Company Description</th>
         <th>Update or Delete Information</th>
     </tr>
+    </thead>
+    <tbody>
     {% for company in company_list %}
         <tr>
             <td>
@@ -32,6 +31,7 @@
             </td>
         </tr>
     {% endfor %}
+  </tbody>
 </table>
-</body>
-</html>
+</div>
+{% endblock main_content %}

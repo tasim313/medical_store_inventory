@@ -130,7 +130,7 @@ def receipt(request):
     manager_obj = Manager.objects.get(user=request.user.id)
     #sales = Sale.objects.filter(ph_manager_id=manager_obj)
     sales = Sale.objects.all().order_by('-id').filter(ph_manager_id=manager_obj)
-    return render(request, 'Sales/receipt.html', {'sales': sales, })
+    return render(request, 'manager/receipt.html', {'sales': sales, })
 
 
 @login_required
@@ -170,7 +170,7 @@ def issue_item(request, pk):
             issued_item.total_quantity -= issued_quantity
             issued_item.save()
 
-            return redirect('medicine:admin_sell_product')
+            return redirect('medicine:manager_sell_product')
 
     return render(request, 'Sales/issue_item.html', {'sales_form': sales_form, })
 
@@ -186,7 +186,7 @@ def add_to_stock(request, pk):
             added_quantity = int(request.POST['received_quantity'])
             issued_item.total_quantity += added_quantity
             issued_item.save()
-            return redirect('medicine:admin_sell_product')
+            return redirect('medicine:manager_sell_product')
 
     return render(request, 'Sales/add_to_stock.html', {'form': form})
 

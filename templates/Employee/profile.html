@@ -1,16 +1,12 @@
-<!DOCTYPE html>
+{% extends 'new.html' %}
 {% load crispy_forms_tags %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% block main_content %}
+<center>
 <h1>Complete Your Employee Details</h1><br><br>
       <form method="POST" enctype="multipart/form-data">
       {{ form|crispy }}
       {% csrf_token %}
       <button type="submit" class="btn btn-success btn-sm">Save</button>
   </form>
-</body>
-</html>
+</center>
+{% endblock main_content %}

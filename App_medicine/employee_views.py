@@ -7,7 +7,8 @@ from App_Login.decorators import employee_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from App_medicine.models import Company, MedicineProduct
+from App_medicine.models import Company, MedicineProduct, Sale
+from App_medicine.forms import AddForm, EmployeeSaleForm
 
 
 @login_required
@@ -28,7 +29,7 @@ class AddCompany(CreateView):
         company_obj = form.save(commit=False)
         company_obj.save()
         messages.success(self.request, 'The information was created with success! ')
-        return redirect('App_Login:employee_index')
+        return redirect('medicine:employee_company_view')
 
 
 @method_decorator([login_required, employee_required], name='dispatch')
@@ -70,7 +71,7 @@ class CreateMedicine(CreateView):
     def form_valid(self, form):
         medicine_create = form.save(commit=False)
         medicine_create.save()
-        return HttpResponseRedirect(reverse('App_Login:employee_index'))
+        return HttpResponseRedirect(reverse('medicine:employee_medicine_view'))
 
 
 @login_required
@@ -119,3 +120,80 @@ def search_medicine_expire_date(request):
         search = request.GET.get('search', )
         result = MedicineProduct.objects.filter(expire_date__exact=search, ph_employee_id=employee_obj)
     return render(request, 'medicine_product/expire_medicine.html', context={'search': search, 'result': result})
+
+
+@login_required
+@employee_required
+def receipt(request):
+    employee_obj = Employee.objects.get(user=request.user.id)
+    sales = Sale.objects.filter(ph_employee_id=employee_obj)
+    #sales = new_sale.order_by('-id')
+    #sale = Sale.objects.all().order_by('-id')
+    #sales = sale.filter(pharmacy_id=admin_obj).order_by('-id')
+    return render(request, 'Sales/receipt.html', {'sales': sales, })
+
+
+@login_required
+@employee_required
+def all_sales(request):
+    employee_obj = Employee.objects.get(user=request.user.id)
+    #sale = Sale.objects.all()
+    sales = Sale.objects.filter(ph_employee_id=employee_obj)
+    total = sum([items.amount_received for items in sales])
+    change = sum([items.get_change() for items in sales])
+    net = total - change
+    return render(request, 'Sales/all_sales.html', {'sales': sales, 'total': total, 'change': change, 'net': net, })
+
+
+@login_required
+@employee_required
+def receipt_detail(request, receipt_id):
+    receipt = Sale.objects.get(id=receipt_id)
+    return render(request, 'Sales/receipt_detail.html', {'receipt': receipt})
+
+
+@login_required
+@employee_required
+def issue_item(request, pk):
+    issued_item = MedicineProduct.objects.get(id=pk)
+    sales_form = EmployeeSaleForm(request.POST)
+
+    if request.method == 'POST':
+        if sales_form.is_valid():
+            new_sale = sales_form.save(commit=False)
+            new_sale.item = issued_item
+            new_sale.unit_price = issued_item.unit_price
+            new_sale.employee = issued_item.ph_employee_id
+            new_sale.save()
+            # To keep track of the stock remaining after sales
+            issued_quantity = int(request.POST['quantity'])
+            issued_item.total_quantity -= issued_quantity
+            issued_item.save()
+
+            return redirect('medicine:employee_sell_product')
+
+    return render(request, 'Sales/issue_item.html', {'sales_form': sales_form, })
+
+
+@login_required
+@employee_required
+def add_to_stock(request, pk):
+    issued_item = MedicineProduct.objects.get(id=pk)
+    form = AddForm(request.POST)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            added_quantity = int(request.POST['received_quantity'])
+            issued_item.total_quantity += added_quantity
+            issued_item.save()
+            return redirect('medicine:employee_sell_product')
+
+    return render(request, 'Sales/add_to_stock.html', {'form': form})
+
+
+@login_required
+@employee_required
+def sell_product_detail(request):
+    employee_obj = Employee.objects.get(user=request.user.id)
+    product_list = MedicineProduct.objects.filter(ph_employee_id=employee_obj)
+    return render(request, 'Employee/product_detail.html', {'product_list': product_list})

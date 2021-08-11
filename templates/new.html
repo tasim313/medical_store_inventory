@@ -61,9 +61,8 @@
         {% include 'Admin/HomePage.html' with user=user id=id %}
     {% elif user.is_manager %}
        {% include 'manager/manager_home_page.html' with user=user id=id %}
-
     {% elif user.is_employee %}
-        <a href="{% url 'App_Login:employee_index' %}">HomePage</a>
+        {% include 'Employee/HomePage.html' with user=user id=id %}
     {% else %}
         <h2>Nothing</h2>
     {% endif %}
