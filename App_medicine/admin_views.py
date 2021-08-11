@@ -7,8 +7,8 @@ from App_Login.decorators import admin_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from App_medicine.models import Company, MedicineProduct
-from App_medicine.forms import AddCompany
+from App_medicine.models import Company, MedicineProduct, Sale
+from App_medicine.forms import AddForm, SaleForm
 
 
 @login_required()
@@ -29,7 +29,7 @@ class AddCompany(CreateView):
         company_obj = form.save(commit=False)
         company_obj.save()
         messages.success('This information was created with success! ')
-        return redirect('App_Login:index')
+        return redirect('medicine:company_view')
 
 
 @method_decorator([login_required, admin_required], name='dispatch')
@@ -63,7 +63,7 @@ def search_company(request):
 @method_decorator([login_required, admin_required], name='dispatch')
 class CreateMedicine(CreateView):
     fields = ('company_id', 'pharmacy_id', 'name', 'm_type', 'des', 'b_no', 's_no', 'mfg_date', 'expire_date', 'dar_no',
-              'mfg_Lic', 'total_quantity', 'issued_quantity', 'received_quantity', 'buy_price', 'unit_price')
+              'mfg_Lic', 'total_quantity',  'buy_price', 'unit_price')
     model = MedicineProduct
     template_name = 'medicine_product/input_medicine.html'
     context_object_name = 'medicine'
@@ -72,7 +72,7 @@ class CreateMedicine(CreateView):
         medicine_create = form.save(commit=False)
         medicine_create.save()
         messages.success(self.request, 'This medicine was created with success! ')
-        return HttpResponseRedirect(reverse('App_Login:index'))
+        return HttpResponseRedirect(reverse('medicine:admin_medicine_view'))
 
 
 @login_required
@@ -88,7 +88,7 @@ def medicine_view(request):
 class UpdateMedicine(UpdateView):
     model = MedicineProduct
     fields = ('company_id', 'pharmacy_id', 'name', 'm_type', 'des', 'b_no', 's_no', 'mfg_date', 'expire_date', 'dar_no',
-              'mfg_Lic', 'total_quantity', 'issued_quantity', 'received_quantity', 'buy_price', 'unit_price')
+              'mfg_Lic', 'total_quantity', 'buy_price', 'unit_price')
     template_name = 'medicine_product/update_medicine.html'
 
     def get_success_url(self, **kwargs):
@@ -121,3 +121,79 @@ def search_medicine_expire_date(request):
         search = request.GET.get('search',)
         result = MedicineProduct.objects.filter(expire_date__exact=search, pharmacy_id=admin_obj)
     return render(request, 'medicine_product/expire_medicine.html', context={'search': search, 'result': result})
+
+
+@login_required
+@admin_required
+def receipt(request):
+    admin_obj = Admin.objects.get(user=request.user.id)
+    sales = Sale.objects.filter(pharmacy_id=admin_obj)
+    #sales = new_sale.order_by('-id')
+    #sale = Sale.objects.all().order_by('-id')
+    #sales = sale.filter(pharmacy_id=admin_obj).order_by('-id')
+    return render(request, 'Sales/receipt.html', {'sales': sales, })
+
+
+@login_required
+@admin_required
+def all_sales(request):
+    admin_obj = Admin.objects.get(user=request.user.id)
+    #sale = Sale.objects.all()
+    sales = Sale.objects.filter(pharmacy_id=admin_obj)
+    total = sum([items.amount_received for items in sales])
+    change = sum([items.get_change() for items in sales])
+    net = total - change
+    return render(request, 'Sales/all_sales.html', {'sales': sales, 'total': total, 'change': change, 'net': net, })
+
+
+@login_required
+@admin_required
+def receipt_detail(request, receipt_id):
+    receipt = Sale.objects.get(id=receipt_id)
+    return render(request, 'Sales/receipt_detail.html', {'receipt': receipt})
+
+
+@login_required
+@admin_required
+def issue_item(request, pk):
+    issued_item = MedicineProduct.objects.get(id=pk)
+    sales_form = SaleForm(request.POST)
+
+    if request.method == 'POST':
+        if sales_form.is_valid():
+            new_sale = sales_form.save(commit=False)
+            new_sale.item = issued_item
+            new_sale.unit_price = issued_item.unit_price
+            new_sale.admin = issued_item.pharmacy_id
+            new_sale.save()
+            # To keep track of the stock remaining after sales
+            issued_quantity = int(request.POST['quantity'])
+            issued_item.total_quantity -= issued_quantity
+            issued_item.save()
+
+            return redirect('medicine:admin_sell_product')
+
+    return render(request, 'Sales/issue_item.html', {'sales_form': sales_form, })
+
+
+@login_required
+@admin_required
+def add_to_stock(request, pk):
+    issued_item = MedicineProduct.objects.get(id=pk)
+    form = AddForm(request.POST)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            added_quantity = int(request.POST['received_quantity'])
+            issued_item.total_quantity += added_quantity
+            issued_item.save()
+            return redirect('medicine:admin_sell_product')
+
+    return render(request, 'Sales/add_to_stock.html', {'form': form})
+
+
+@login_required
+def sell_product_detail(request):
+    admin_obj = Admin.objects.get(user=request.user.id)
+    product_list = MedicineProduct.objects.filter(pharmacy_id=admin_obj)
+    return render(request, 'Admin/product_detail.html', {'product_list': product_list})

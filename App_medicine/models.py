@@ -158,6 +158,7 @@ class Sale(models.Model):
     quantity = models.IntegerField(default=0, null=True, blank=True)
     amount_received = models.IntegerField(default=0, null=True, blank=True)
     unit_price = models.IntegerField(default=0, null=True, blank=True)
+    issued_to = models.CharField(max_length=50, null=True, blank=True, verbose_name='Issued To')
 
     def get_total(self):
         total = self.quantity * self.item.unit_price

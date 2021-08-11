@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'new.html' %}
+{% block main_content %}
+<center>
 <form class="form-inline" method="GET">
     <input class="form-control mr-sm-2" type="date" name="search" placeholder="Search">
     <button class="btn btn-success" type="submit">Search</button>
@@ -12,7 +8,9 @@
 <center>
 {% if search %}
         <h4> Expire Medicine Details</h4>
-        <table border="3">
+         <div class = "container">
+          <table class="table">
+              <thead class="thead-dark">
             <tr>
                 <th>Medicine Name</th>
                 <th>Available in stock</th>
@@ -20,6 +18,8 @@
                 <th>Shelf No or Rack No</th>
                 <th>Expire Date</th>
             </tr>
+            </thead>
+           <tbody>
             {% for medicine in result %}
                     <tr>
                         <td>{{ medicine.name }}</td>
@@ -29,10 +29,12 @@
                         <td>{{ medicine.expire_date }}</td>
                     </tr>
          {% endfor %}
-        </table>
+        </tbody>
+      </table>
+    </div>
 {% else %}
 
 {% endif %}
 </center>
-</body>
-</html>
+</center>
+{% endblock main_content %}

@@ -8,7 +8,6 @@ from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from App_medicine.models import Company, MedicineProduct
-from App_medicine.forms import AddCompany
 
 
 @login_required

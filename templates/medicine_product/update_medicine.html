@@ -1,11 +1,7 @@
-<!DOCTYPE html>
+{% extends 'new.html' %}
 {% load crispy_forms_tags %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% block main_content %}
+<center>
  <h3>Update Medicine</h3>
 {% if medicineproduct.name == medicineproduct.name %}
     <form method="POST" enctype="multipart/form-data">
@@ -15,5 +11,5 @@
     <button type="submit" value="submit" class="btn btn-success btn-sm">Save</button>
     </form>
 {% endif %}
-</body>
-</html>
+</center>
+{% endblock main_content %}

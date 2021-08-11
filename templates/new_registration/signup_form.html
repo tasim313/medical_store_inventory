@@ -1,9 +1,7 @@
 <!DOCTYPE html>
+{% load crispy_forms_tags %}
 <html lang="en">
 <head>
-
-{% load crispy_forms_tags %}
-
 {% block css_block %}
     <style>
     .sign_up{
@@ -21,7 +19,9 @@
 </head>
 <body>
 {% block content %}
-  <div class="row">
+ <center>
+    <br>
+  <div class="sign_up">
     <div class="col-md-8 col-sm-10 col-12">
       <h2>Sign up as a {{ user_type }}</h2>
       <form method="post" novalidate>
@@ -38,6 +38,8 @@
     </div>
      <br>
   </div>
+ <br>
+ </center>
 {% endblock %}
 </body>
 </html>

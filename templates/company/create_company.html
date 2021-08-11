@@ -1,11 +1,7 @@
-<!DOCTYPE html>
+{% extends 'new.html' %}
 {% load crispy_forms_tags %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% block main_content %}
+<center>
 <center><h1>Insert Company Information</h1></center>
 
 <form method="POST" enctype="multipart/form-data">
@@ -13,5 +9,5 @@
       {% csrf_token %}
     <button type="submit" class="btn btn-success btn-sm">Save</button>
 </form>
-</body>
-</html>
+</center>
+{% endblock main_content %}

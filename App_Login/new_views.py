@@ -77,3 +77,7 @@ def user_login(request):
 def logout_user(request):
     logout(request)
     return redirect('App_Login:login')
+
+
+def test(request):
+    return render(request, 'Admin/base.html')

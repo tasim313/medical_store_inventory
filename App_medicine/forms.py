@@ -12,16 +12,24 @@ class MedicineForm(forms.ModelForm):
 
 from django import forms
 
-from App_medicine.models import Company
+from App_medicine.models import MedicineProduct, Sale
 
 
-class AddCompany(forms.ModelForm):
+class AddForm(forms.ModelForm):
     class Meta:
-        model = Company
-        fields = ('pharmacy_id', 'ph_manager_id', 'ph_employee_id', 'name', 'lic_no', 'address', 'cont_num', 'email', 'description',)
+        model = MedicineProduct
+        fields = ['received_quantity']
 
 
+class SaleForm(forms.ModelForm):
+    class Meta:
+        model = Sale
+        fields = ('pharmacy_id', 'quantity', 'amount_received', 'issued_to',)
 
 
+class ManagerSaleForm(forms.ModelForm):
+    class Meta:
+        model = Sale
+        fields = ('ph_manager_id', 'quantity', 'amount_received', 'issued_to',)
 
 

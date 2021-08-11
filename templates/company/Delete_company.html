@@ -1,15 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'new.html' %}
+{% load crispy_forms_tags %}
+{% block main_content %}
+<center>
 <h3>Delete {{ company.name }} ?</h3>
 <form method="POST">
   {% csrf_token %}
   <input type="submit" name="submit" value="Delete" class="btn btn-danger btn-sm">
     <a href="{% url 'medicine:company_view' %}" class="btn btn-info btn-sm">Cancel</a>
 </form>
-</body>
-</html>
+</center>
+{% endblock main_content %}
