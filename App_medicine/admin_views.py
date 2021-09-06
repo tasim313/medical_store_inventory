@@ -197,3 +197,4 @@ def sell_product_detail(request):
     admin_obj = Admin.objects.get(user=request.user.id)
     product_list = MedicineProduct.objects.filter(pharmacy_id=admin_obj)
     return render(request, 'Admin/product_detail.html', {'product_list': product_list})
+

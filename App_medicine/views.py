@@ -56,3 +56,9 @@ def search_medicine_expire_date(request):
     return render(request, 'medicine_product/expire_medicine.html', context={'search': search, 'result': result})
 
 '''''
+
+from django.shortcuts import render, HttpResponseRedirect
+
+
+def main_home_page(request):
+    return render(request, 'MainTemplate.html')

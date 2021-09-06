@@ -7,7 +7,7 @@ from App_Login.decorators import admin_required
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from App_medicine.models import MedicineProduct, Company
+from App_medicine.models import Company, MedicineProduct, Sale
 
 
 @method_decorator([login_required, admin_required], name='dispatch')
@@ -46,3 +46,21 @@ def manager_view(request):
     return render(request, 'Admin/manager_view.html', context=diction)
 
 
+@login_required
+def admin_dashboard(request):
+    admin_obj = Admin.objects.get(user=request.user.id)
+    employee_count = Employee.objects.filter(pharmacy_id=admin_obj)
+    emp_count = employee_count.count()
+    manager = Manager.objects.filter(pharmacy_id=admin_obj)
+    manager_count = manager.count()
+    meadicine = MedicineProduct.objects.filter(pharmacy_id=admin_obj)
+    medicine_count = meadicine.count()
+    company = Company.objects.filter(pharmacy_id=admin_obj)
+    company_count = company.count()
+    sales = Sale.objects.filter(pharmacy_id=admin_obj)
+    profit = sum([items.get_profit() for items in sales])
+    diction = {
+        'emp_count': emp_count, 'manager_count': manager_count, 'medicine_count': medicine_count,
+        'profit': profit, 'company_count': company_count,
+    }
+    return render(request, 'Admin/admin_main_homepage.html', context=diction)
